@@ -1,6 +1,8 @@
 require "application_system_test_case"
 
 class OrdersTest < ApplicationSystemTestCase
+  include ActiveJob::TestHelper
+
   setup do
     @order = orders(:one)
   end
@@ -48,6 +50,9 @@ class OrdersTest < ApplicationSystemTestCase
   end
 
   test "check routing number" do
+    LineItem.delete_all
+    Order.delete_all
+
     visit store_index_url
 
     click_on 'Add to Cart', match: :first
